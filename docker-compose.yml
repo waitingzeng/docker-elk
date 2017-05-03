@@ -31,11 +31,13 @@ services:
   kibana:
     build: kibana/
     ports:
-      - "0.0.0.0:5601:5601/tcp"
+      - ":5601:5601"
     networks:
       - elk
     depends_on:
       - elasticsearch
+    volumes:
+      - ./kibana/config/kibana.yml:/usr/share/kibana/config/kibana.yml
 
 networks:
 
