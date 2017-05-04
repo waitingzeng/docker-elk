@@ -8,6 +8,8 @@ from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 import logging
 import json
+RECORD_FORMAT = "[%(asctime)s][%(filename)s:%(lineno)d][%(process)d:%(threadName)s] %(message)s"
+logging.basicConfig(format=RECORD_FORMAT)
 
 db = {
     'host': 'vpc-product.cukhkd3vy9hv.us-east-1.rds.amazonaws.com',
@@ -30,7 +32,7 @@ def sync_table(table_id):
     last_id = 0
     while True:
         sql = "SELECT * FROM product_%s WHERE p_id > %s and update_time > %s order by p_id LIMIT 10000" % (table_id, last_id, sql_last_value)
-        print sql
+        logging.info("run sql: %s", sql)
         cursor.execute(sql)
         had = 0
         for item in cursor.fetchall():

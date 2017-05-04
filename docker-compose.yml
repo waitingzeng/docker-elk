@@ -8,7 +8,7 @@ services:
       - "9200:9200"
       - "9300:9300"
     environment:
-      ES_JAVA_OPTS: "-Xmx10g -Xms10g"
+      ES_JAVA_OPTS: "-Xmx20g -Xms20g"
     networks:
       - elk
     volumes:
