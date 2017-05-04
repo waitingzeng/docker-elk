@@ -21,7 +21,7 @@ db = {
 }
 db_conn = MySQLdb.connect(connect_timeout=30, **db)
 cursor = db_conn.cursor(MySQLdb.cursors.DictCursor)
-es = Elasticsearch(hosts=['http://elastic:secret08@127.0.0.1:9200'])
+es = Elasticsearch(hosts=['http://elastic:changeme@127.0.0.1:9200'])
 
 class Global(object):
     total = 0
