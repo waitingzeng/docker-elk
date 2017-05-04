@@ -5,11 +5,10 @@ services:
   elasticsearch:
     build: elasticsearch/
     ports:
-      - "9200"
-      - "9300"
+      - "9200:9200"
+      - "9300:9300"
     environment:
-      ES_JAVA_OPTS: "-Xmx8g -Xms8g"
-      discovery.zen.ping.unicast.hosts: elasticsearch
+      ES_JAVA_OPTS: "-Xmx20g -Xms20g"
     networks:
       - elk
     volumes:

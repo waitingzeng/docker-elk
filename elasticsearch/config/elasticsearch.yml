@@ -1,4 +1,4 @@
-cluster.name: "docker-cluster"
+cluster.name: "product-cluster"
 network.host: 0.0.0.0
 
 # minimum_master_nodes need to be explicitly set when bound on a public IP
@@ -7,3 +7,18 @@ network.host: 0.0.0.0
 discovery.zen.minimum_master_nodes: 1
 
 path.data: /usr/share/elasticsearch/data1,/usr/share/elasticsearch/data2
+
+index.number_of_shards: 1
+
+index.number_of_replicas: 0
+discovery.zen.ping.multicast.enabled: false
+
+indices.fielddata.cache.size: 224m
+indices.fielddata.cache.expire: 5m
+
+index.cache.field.type: soft
+index.cache.field.max_size: 20000
+index.cache.field.expire: 10m
+
+
+script.disable_dynamic: true
