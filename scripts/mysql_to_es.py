@@ -10,7 +10,7 @@ import logging
 
 db = {
     'host': 'vpc-product.cukhkd3vy9hv.us-east-1.rds.amazonaws.com',
-    'post': 3306,
+    'port': 3306,
     'db': 'product_db_v2',
     'user': 'prod_product',
     'password': 'secret008'
