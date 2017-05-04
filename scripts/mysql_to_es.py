@@ -66,13 +66,14 @@ def send_to_es():
         action = {
             "_index": "product",
             "_type": "amazon",
+            "document_id": item['product_sku'],
             "_source": item
         }
 
         actions.append(action)
-        if len(actions) >= 100:
+        if len(actions) >= 1000:
             logging.info("save to es %d", len(actions))
-            res = helpers.bulk(es, actions, chunk_size=100, params={'request_timeout': 90})
+            res = helpers.bulk(es, actions, chunk_size=1000, params={'request_timeout': 90})
             Global.total += res[0]
             logging.info("save to es %d, res: %s, total: %d", len(actions), res, Global.total)
             actions = []
