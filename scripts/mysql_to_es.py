@@ -7,6 +7,7 @@ import MySQLdb
 from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 import logging
+import json
 
 db = {
     'host': 'vpc-product.cukhkd3vy9hv.us-east-1.rds.amazonaws.com',
@@ -33,6 +34,8 @@ def sync_table(table_id):
         cursor.execute(sql)
         had = 0
         for item in cursor.fetchall():
+            item['product_category'] = json.loads(item['product_category'])
+            item['product_name'] = item['product_name'].decode('utf8', 'ignore')
             yield item
             last_id = item['p_id']
             had = True
