@@ -8,7 +8,7 @@ services:
       - "9200:9200"
       - "9300:9300"
     environment:
-      ES_JAVA_OPTS: "-Xmx2048m -Xms2048m"
+      ES_JAVA_OPTS: "-Xmx10g -Xms10g"
     networks:
       - elk
     volumes:
@@ -23,7 +23,7 @@ services:
     ports:
       - "5000:5000"
     environment:
-      LS_JAVA_OPTS: "-Xmx1024m -Xms1024m"
+      LS_JAVA_OPTS: "-Xmx4g -Xms4g"
     networks:
       - elk
     depends_on:
