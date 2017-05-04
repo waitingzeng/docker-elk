@@ -22,6 +22,8 @@ db_conn = MySQLdb.connect(connect_timeout=30, **db)
 cursor = db_conn.cursor(MySQLdb.cursors.DictCursor)
 es = Elasticsearch(hosts=['http://elastic:secret08@127.0.0.1:9200'])
 
+class Global(object):
+    total = 0
 
 def sync_table(table_id):
     try:
@@ -71,11 +73,14 @@ def send_to_es():
         if len(actions) >= 100:
             logging.info("save to es %d", len(actions))
             res = helpers.bulk(es, actions, chunk_size=100, params={'request_timeout': 90})
-            logging.info("save to es %d, res: %s", len(actions), res)
+            Global.total += res[0]
+            logging.info("save to es %d, res: %s, total: %d", len(actions), res, Global.total)
             actions = []
+
     logging.info("save to es %d", len(actions))
     res = helpers.bulk(es, actions, chunk_size=100, params={'request_timeout': 90})
-    logging.info("save to es %d, res: %s", len(actions), res)
+    Global.total += res[0]
+    logging.info("save to es %d, res: %s, total: %d", len(actions), res, Global.total)
     
 
 if __name__ == '__main__':
