@@ -8,5 +8,3 @@ discovery.zen.minimum_master_nodes: 1
 
 path.data: /usr/share/elasticsearch/data1,/usr/share/elasticsearch/data2
 
-discovery.zen.ping.multicast.enabled: false
-
