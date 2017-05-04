@@ -13,9 +13,3 @@ index.number_of_shards: 1
 index.number_of_replicas: 0
 discovery.zen.ping.multicast.enabled: false
 
-indices.fielddata.cache.size: 224m
-indices.fielddata.cache.expire: 5m
-
-index.cache.field.type: soft
-index.cache.field.max_size: 20000
-index.cache.field.expire: 10m
