@@ -13,7 +13,7 @@ db = {
     'port': 3306,
     'db': 'product_db_v2',
     'user': 'prod_product',
-    'password': 'secret008'
+    'passwd': 'secret008'
 }
 db_conn = MySQLdb.connect(connect_timeout=30, **db)
 cursor = db_conn.cursor(MySQLdb.cursors.DictCursor)
