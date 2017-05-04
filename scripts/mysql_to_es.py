@@ -9,6 +9,7 @@ from elasticsearch import helpers
 import logging
 import json
 from setup_logger import setup_logger
+from datetime import datetime
 setup_logger()
 
 db = {
@@ -66,7 +67,9 @@ def send_to_es():
         action = {
             "_index": "product",
             "_type": "amazon",
-            "document_id": item['product_sku'],
+            "_id": item['product_sku'],
+            "_timestamp": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+            "_version": "1",
             "_source": item
         }
 
@@ -82,7 +85,7 @@ def send_to_es():
     res = helpers.bulk(es, actions, chunk_size=100, params={'request_timeout': 90})
     Global.total += res[0]
     logging.info("save to es %d, res: %s, total: %d", len(actions), res, Global.total)
-    
+
 
 if __name__ == '__main__':
     send_to_es()
