@@ -69,6 +69,7 @@ def send_to_es():
             logging.info("save to es %d", len(actions))
             res = helpers.bulk(es, actions, chunk_size=100, params={'request_timeout': 90})
             logging.info("save to es %d, res: %s", len(actions), res)
+            actions = []
     logging.info("save to es %d", len(actions))
     res = helpers.bulk(es, actions, chunk_size=100, params={'request_timeout': 90})
     logging.info("save to es %d, res: %s", len(actions), res)
