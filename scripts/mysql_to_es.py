@@ -11,6 +11,7 @@ import json
 from setup_logger import setup_logger
 from datetime import datetime
 setup_logger()
+import sys
 
 db = {
     'host': 'vpc-product.cukhkd3vy9hv.us-east-1.rds.amazonaws.com',
@@ -56,11 +57,12 @@ def sync_table(table_id):
 
 
 def sync_tables():
-    for i in range(200):
+    for i in range(int(sys.argv[1]), int(sys.argv[2])):
         for item in sync_table(i):
             yield item
 
 
+chunk_size = 1000
 def send_to_es():
     actions = []
     for item in sync_tables():
@@ -68,14 +70,14 @@ def send_to_es():
             "_index": "product",
             "_type": "amazon",
             "_id": item['product_sku'],
-            "_timestamp": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+            #"_timestamp": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
             "_source": item
         }
 
         actions.append(action)
-        if len(actions) >= 1000:
+        if len(actions) >= chunk_size:
             logging.info("save to es %d", len(actions))
-            res = helpers.bulk(es, actions, chunk_size=1000, params={'request_timeout': 90})
+            res = helpers.bulk(es, actions, chunk_size=chunk_size, params={'request_timeout': 90})
             Global.total += res[0]
             logging.info("save to es %d, res: %s, total: %d", len(actions), res, Global.total)
             actions = []
