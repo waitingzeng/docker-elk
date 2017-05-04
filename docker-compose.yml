@@ -16,6 +16,7 @@ services:
       - ./elasticsearch/config/jvm.options:/usr/share/elasticsearch/config/jvm.options
       - /mnt/elk:/usr/share/elasticsearch/data
       - /mnt/elk2:/usr/share/elasticsearch/data2
+      - /mnt/elk1:/usr/share/elasticsearch/data1
 
   kibana:
     build: kibana/
