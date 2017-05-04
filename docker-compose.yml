@@ -13,7 +13,7 @@ services:
       - elk
     volumes:
       - ./elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
-      - ./elasticsearch/config/log4j2.properties:/usr/share/elasticsearch/config/log4j2.properties
+      - ./elasticsearch/config/jvm.options:/usr/share/elasticsearch/config/jvm.options
       - /mnt/elk:/usr/share/elasticsearch/data
 
   kibana:
