@@ -18,7 +18,7 @@ db = {
 }
 db_conn = MySQLdb.connect(connect_timeout=30, **db)
 cursor = db_conn.cursor(MySQLdb.cursors.DictCursor)
-es = Elasticsearch()
+es = Elasticsearch(hosts=['http://elastic:secret08@127.0.0.1:9200'])
 
 
 def sync_table(table_id):
@@ -39,6 +39,10 @@ def sync_table(table_id):
             yield item
             last_id = item['p_id']
             had = True
+            sql_last_value = item['update_time']
+        f = file('.last_sync_id_%s' % table_id, 'w')
+        f.write(str(sql_last_value))
+        f.close()
         if not had:
             break
 
