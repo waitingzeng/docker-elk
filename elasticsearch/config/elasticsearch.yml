@@ -19,6 +19,3 @@ indices.fielddata.cache.expire: 5m
 index.cache.field.type: soft
 index.cache.field.max_size: 20000
 index.cache.field.expire: 10m
-
-
-script.disable_dynamic: true
