@@ -69,7 +69,7 @@ def send_to_es():
             "_type": "amazon",
             "_id": item['product_sku'],
             "_timestamp": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-            "_version": "1",
+            "_version": 1,
             "_source": item
         }
 
