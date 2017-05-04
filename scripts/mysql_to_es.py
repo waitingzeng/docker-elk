@@ -71,7 +71,13 @@ def send_to_es():
             "_type": "amazon",
             "_id": item['product_sku'],
             #"_timestamp": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
-            "_source": item
+            "_source": item,
+            "settings": {
+                "index": {
+                    "number_of_shards": 5,
+                    "number_of_replicas": 1
+                }
+            }
         }
 
         actions.append(action)
