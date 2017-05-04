@@ -8,8 +8,8 @@ from elasticsearch import Elasticsearch
 from elasticsearch import helpers
 import logging
 import json
-RECORD_FORMAT = "[%(asctime)s][%(filename)s:%(lineno)d][%(process)d:%(threadName)s] %(message)s"
-logging.basicConfig(format=RECORD_FORMAT)
+from setup_logger import setup_logger
+setup_logger()
 
 db = {
     'host': 'vpc-product.cukhkd3vy9hv.us-east-1.rds.amazonaws.com',
