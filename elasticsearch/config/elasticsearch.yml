@@ -1,4 +1,4 @@
-cluster.name: "product-cluster"
+cluster.name: "purchase-cluster"
 network.host: 0.0.0.0
 
 # minimum_master_nodes need to be explicitly set when bound on a public IP
@@ -7,6 +7,4 @@ network.host: 0.0.0.0
 discovery.zen.minimum_master_nodes: 1
 
 path.data: /usr/share/elasticsearch/data
-
-bootstrap.mlockall: true
 
