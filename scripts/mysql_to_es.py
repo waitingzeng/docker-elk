@@ -12,6 +12,7 @@ from setup_logger import setup_logger
 from datetime import datetime
 setup_logger()
 import sys
+from gevent import pool
 
 db = {
     'host': 'vpc-product.cukhkd3vy9hv.us-east-1.rds.amazonaws.com',
@@ -26,6 +27,7 @@ es = Elasticsearch(hosts=['http://elastic:changeme@127.0.0.1:9200'])
 
 class Global(object):
     total = 0
+    runtime = time.time()
 
 def sync_table(table_id):
     try:
@@ -63,6 +65,15 @@ def sync_tables():
 
 
 chunk_size = 1000
+g_pool = pool.Pool(10)
+
+def save(actions):
+    logging.info("save to es %d", len(actions))
+    res = helpers.bulk(es, actions, chunk_size=chunk_size, params={'request_timeout': 90})
+    Global.total += res[0]
+    logging.info("save to es %d, res: %s, total: %d", len(actions), res, Global.total)
+    
+
 def send_to_es():
     actions = []
     for item in sync_tables():
@@ -72,27 +83,21 @@ def send_to_es():
             "_id": item['product_sku'],
             #"_timestamp": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
             "_source": item,
-            "settings": {
+            "settings": {   
                 "index": {
                     "number_of_shards": 5,
-                    "number_of_replicas": 1
+                    "number_of_replicas": 0
                 }
             }
         }
 
         actions.append(action)
         if len(actions) >= chunk_size:
-            logging.info("save to es %d", len(actions))
-            res = helpers.bulk(es, actions, chunk_size=chunk_size, params={'request_timeout': 90})
-            Global.total += res[0]
-            logging.info("save to es %d, res: %s, total: %d", len(actions), res, Global.total)
-            actions = []
+            new_actions, actions = actions, []
+            g_pool.spawn(save, actions)
 
-    logging.info("save to es %d", len(actions))
-    res = helpers.bulk(es, actions, chunk_size=100, params={'request_timeout': 90})
-    Global.total += res[0]
-    logging.info("save to es %d, res: %s, total: %d", len(actions), res, Global.total)
-
+    save(actions)
+    g_pool.join()
 
 if __name__ == '__main__':
     send_to_es()
