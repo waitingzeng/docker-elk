@@ -5,7 +5,7 @@ import os
 import requests
 import json
 
-templates_dir = os.path.dirname(os.path.abspath(__file__)) + '/elasticsearch/templates'
+templates_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/elasticsearch/templates'
 
 
 for fname in os.path.dirname(templates_dir):
