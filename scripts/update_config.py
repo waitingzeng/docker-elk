@@ -8,7 +8,7 @@ import json
 templates_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/elasticsearch/templates'
 
 
-for basename in os.path.listdir(templates_dir):
+for basename in os.listdir(templates_dir):
     if not basename.endswith('.json'):
         continue
     fname = templates_dir + '/' + basename
