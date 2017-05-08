@@ -14,5 +14,5 @@ for basename in os.listdir(templates_dir):
     fname = templates_dir + '/' + basename
     content = json.loads(file(fname).read())
     print content
-    res = requests.put('http://elastic:changeme@127.0.0.1:9200/%s' % basename[:-4], json=content)
+    res = requests.put('http://elastic:changeme@127.0.0.1:9200/%s' % basename[:-5], json=content)
     print res, res.content
