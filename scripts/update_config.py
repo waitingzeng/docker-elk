@@ -8,10 +8,11 @@ import json
 templates_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__))) + '/elasticsearch/templates'
 
 
-for fname in os.path.dirname(templates_dir):
-    if not fname.endswith('.json'):
+for basename in os.path.dirname(templates_dir):
+    if not basename.endswith('.json'):
         continue
-    fname = templates_dir + '/' + fname
+    fname = templates_dir + '/' + basename
     content = json.loads(file(fname).read())
-    res = requests.put('http://elastic:changeme@127.0.0.1:9200', json=content)
+    print content
+    res = requests.put('http://elastic:changeme@127.0.0.1:9200/%s' % basename[:-4], json=content)
     print res, res.content
