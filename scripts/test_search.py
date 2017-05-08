@@ -7,6 +7,7 @@ from datetime import datetime
 setup_logger()
 import requests
 from gevent import pool
+import random
 
 g_pool = pool.Pool(10)
 
@@ -31,6 +32,6 @@ def search(query):
         'http://elastic:changeme@127.0.0.1:9200/product/amazon/_search?', json=query)
 
 while True:
-    g_pool.spawn(search, 'iphone')
+    g_pool.spawn(search, str(random.randint(0, 10000000)))
 
 g_pool.join()
