@@ -13,5 +13,5 @@ for fname in os.path.dirname(templates_dir):
         continue
     fname = templates_dir + '/' + fname
     content = json.loads(file(fname).read())
-    requests.put('http://elastic:changeme@127.0.0.1:9200', json=content)
-
+    res = requests.put('http://elastic:changeme@127.0.0.1:9200', json=content)
+    print res, res.content
