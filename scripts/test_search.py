@@ -6,6 +6,7 @@ from setup_logger import setup_logger
 from datetime import datetime
 setup_logger()
 import requests
+from gevent import pool
 
 g_pool = pool.Pool(10)
 
