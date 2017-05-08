@@ -38,7 +38,7 @@ def sync_table(table_id):
 
     last_id = 0
     while True:
-        sql = "SELECT * FROM product_%s WHERE p_id > %s and update_time > %s order by p_id LIMIT 10000" % (table_id, last_id, sql_last_value)
+        sql = "SELECT product_category, product_sku, product_name FROM product_%s WHERE p_id > %s and update_time > %s order by p_id LIMIT 10000" % (table_id, last_id, sql_last_value)
         logging.info("run sql: %s", sql)
         cursor.execute(sql)
         had = 0
