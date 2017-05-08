@@ -47,6 +47,7 @@ def sync_table(table_id):
                 item['product_category'] = json.loads(item['product_category'])
             except:
                 item['product_category'] = []
+            item.pop('product_url', None)
             item['product_name'] = item['product_name'].decode('utf8', 'ignore')
             yield item
             last_id = item['p_id']
@@ -81,21 +82,14 @@ def send_to_es():
         action = {
             "_index": "product",
             "_type": "amazon",
-            "_id": item['product_sku'],
-            #"_timestamp": datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
+            "_id": item.pop('product_sku'),
             "_source": item,
-            "settings": {   
-                "index": {
-                    "number_of_shards": 5,
-                    "number_of_replicas": 0
-                }
-            }
         }
 
         actions.append(action)
         if len(actions) >= chunk_size:
             new_actions, actions = actions, []
-            g_pool.spawn(save, actions)
+            g_pool.spawn(save, new_actions)
 
     save(actions)
     g_pool.join()

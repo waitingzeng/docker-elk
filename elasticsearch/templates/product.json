@@ -1,0 +1,36 @@
+{
+    "mappings": {
+        "product": {
+            "_all": {
+                "norms": false
+            },
+            "dynamic": false,
+            "properties": {
+                "insert_time": {
+                    "type": "number"
+                },
+                "product_category": {
+                    "type": "keyword"
+                },
+                "product_info": {
+                    "type": "string"
+                },
+                "product_name": {
+                    "type": "keyword"
+                },
+                "update_time": {
+                    "type": "number"
+                }
+            }
+        }
+    },
+    "settings": {
+        "index": {
+            "mapping": {
+                "ignore_malformed": true
+            },
+            "number_of_replicas": "0",
+            "number_of_shards": "5"
+        }
+    }
+}
