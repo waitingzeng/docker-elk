@@ -38,7 +38,7 @@ def sync_table(table_id):
 
     last_id = 0
     while True:
-        sql = "SELECT product_category, product_sku, product_name FROM product_%s WHERE p_id > %s and update_time > %s order by p_id LIMIT 10000" % (table_id, last_id, sql_last_value)
+        sql = "SELECT p_id, product_category, product_sku, product_name, update_time FROM product_%s WHERE p_id > %s and update_time > %s order by p_id LIMIT 10000" % (table_id, last_id, sql_last_value)
         logging.info("run sql: %s", sql)
         cursor.execute(sql)
         had = 0
@@ -50,9 +50,9 @@ def sync_table(table_id):
             item.pop('product_url', None)
             item['product_name'] = item['product_name'].decode('utf8', 'ignore')
             yield item
-            last_id = item['p_id']
+            last_id = item.pop('p_id')
             had = True
-            sql_last_value = item['update_time']
+            sql_last_value = item.pop('update_time')
         f = file('.last_sync_id_%s' % table_id, 'w')
         f.write(str(sql_last_value))
         f.close()
